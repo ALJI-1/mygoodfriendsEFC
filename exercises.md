@@ -3,6 +3,7 @@
 These exercises are designed to help you practice creating your own API endpoints and controllers using the `SeedGenerator.AllQuotes` data source in the project.
 
 ## Exercise 1: Create a GET Endpoint for All Quotes
+
 - **Goal:** Implement a new endpoint that returns all quotes from `SeedGenerator.AllQuotes`.
 - **Steps:**
   1. Add a new action method in an existing controller (e.g., `AdminController`) or create a new controller.
@@ -10,6 +11,7 @@ These exercises are designed to help you practice creating your own API endpoint
   3. Test the endpoint using Swagger.
 
 ## Exercise 2: Create a GET Endpoint for a Random Quote
+
 - **Goal:** Implement an endpoint that returns a single random quote from `SeedGenerator.AllQuotes`.
 - **Steps:**
   1. Add a new action method that selects a random quote from the list.
@@ -17,6 +19,7 @@ These exercises are designed to help you practice creating your own API endpoint
   3. Test the endpoint to ensure it returns different quotes on multiple requests.
 
 ## Exercise 3: Create Your Own Quotes Controller
+
 - **Goal:** Create a new controller called `QuotesController` with endpoints for quotes.
 - **Steps:**
   1. Add a new controller file named `QuotesController.cs`.

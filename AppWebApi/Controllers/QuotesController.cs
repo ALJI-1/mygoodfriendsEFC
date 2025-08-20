@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -11,12 +12,12 @@ namespace AppWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]   
-    public class AdminController : Controller
+    public class QuoteController : Controller
     {
-        readonly ILogger<AdminController> _logger;
+        readonly ILogger<QuoteController> _logger;
         readonly IWebHostEnvironment _environment;
         readonly SeedGenerator _seeder = new SeedGenerator();
-
+        string filter = "love";
     
 
 
@@ -35,7 +36,7 @@ namespace AppWebApi.Controllers
             }
         }
 
-          [HttpGet()]
+        [HttpGet()]
         [ActionName("RndQuotes")]
         [ProducesResponseType(200)]
         public IActionResult RndQuotes()
@@ -50,22 +51,23 @@ namespace AppWebApi.Controllers
             }
         }
 
-
-        //GET: api/admin/helloworld
         [HttpGet()]
-        [ActionName("HelloWorld")]
+        [ActionName("SearchQuotes")]
         [ProducesResponseType(200)]
-        public IActionResult HelloWorld()
+        public IActionResult SearchQuotes(string qtWord, int nr, byte bytes)
         {
+            var filteredList = new List<SeededQuote>();
             try
             {
-                var helloWorldOptions = new
+                foreach (var qt in _seeder.AllQuotes)
                 {
-                    greeting = "Hello, World!",
-                    from = "a friend",
-                    time = DateTime.UtcNow
-                };
-                return Ok(helloWorldOptions);
+                    if (qt.Quote.Contains(qtWord))
+                    {
+                        filteredList.Add(qt);
+                    }
+                }
+                return Ok(filteredList);
+
             }
             catch (Exception ex)
             {
@@ -73,26 +75,7 @@ namespace AppWebApi.Controllers
             }
         }
 
-        //GET: api/admin/version
-        [HttpGet()]
-        [ActionName("Version")]
-        [ProducesResponseType(typeof(VersionInfo), 200)]
-        public IActionResult Version()
-        {
-            try
-            {
-                var versionInfo = VersionInfo.FromAssembly();
-                return Ok(versionInfo);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving version information");
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-        public AdminController(ILogger<AdminController> logger, IWebHostEnvironment environment)
+        public QuoteController(ILogger<QuoteController> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
             _environment = environment;
