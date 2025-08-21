@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Options;
 using Seido.Utilities.SeedGenerator;
 using Configuration.Options;
+using GoodFriends_lesson_branches.Configuration.Options;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,6 +22,9 @@ namespace AppWebApi.Controllers
         readonly JwtOptions _jwtOptions;
         readonly VersionOptions _versionOptions;
         readonly IConfiguration _configuration;
+        readonly MyNewSecrets _mySecrets;
+        readonly ClassOnMartinRequest _mRequest;
+        
         
         //GET: api/admin/key
         [HttpGet()]
@@ -110,12 +114,53 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //GET: api/admin/version
+        [HttpGet()]
+        [ActionName("ReadMySecrets")]
+        [ProducesResponseType(typeof(VersionOptions), 200)]
+        public IActionResult ReadMySecrets()
+        {
+            try
+            {
+        
+                return Ok(_mySecrets);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving version information");
+                return BadRequest(ex.Message);
+            }
+        }
+        //GET: api/admin/version
+        [HttpGet()]
+        [ActionName("ClassOnMartinRequest")]
+        [ProducesResponseType(typeof(VersionOptions), 200)]
+        public IActionResult ClassOnMartinRequest()
+        {
+            try
+            {
+        
+                return Ok(_mRequest);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving version information");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         public AdminController(ILogger<AdminController> logger,
                     IConfiguration configuration,
                     IOptions<DbConnectionSetsOptions> dbSetOptions,
                     IOptions<AesEncryptionOptions> aesOptions,
                     IOptions<JwtOptions> jwtOptions,
-                    IOptions<VersionOptions> versionOptions)
+                    IOptions<VersionOptions> versionOptions,
+                    IOptions<MyNewSecrets> mySecrets,
+                    IOptions<ClassOnMartinRequest> req
+                    )
         {
             _logger = logger;
 
@@ -124,6 +169,8 @@ namespace AppWebApi.Controllers
             _jwtOptions = jwtOptions.Value;
             _versionOptions = versionOptions.Value;
             _configuration = configuration;
+            _mySecrets = mySecrets.Value;
+            _mRequest = req.Value;
         }
     }
 }

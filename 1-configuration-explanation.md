@@ -1,17 +1,21 @@
 # Configuration Project Overview
 
 ## Purpose
+
 The `Configuration` project in this solution is responsible for centralizing and managing application configuration logic. It provides a structured way to access configuration settings, bind them to strongly-typed objects, and expose them throughout the application using best practices. This separation of concerns improves maintainability, testability, and clarity in the codebase.
 
 ## Architecture
+
 - **Centralized Configuration Logic:** The project encapsulates all configuration-related code, such as reading from `appsettings.json`, environment variables, and user secrets.
 - **Strongly-Typed Options:** It defines POCO (Plain Old CLR Object) classes that represent configuration sections, which are then bound using the options pattern.
 - **Integration with ASP.NET Core:** The project is designed to be consumed by the main web API and other projects, providing a single source of truth for configuration.
 
 ## Microsoft IConfiguration
+
 `IConfiguration` is a core interface in ASP.NET Core for accessing key-value application settings. It supports hierarchical configuration from multiple sources (JSON files, environment variables, user secrets, etc.). In this solution, `IConfiguration` is injected into services and used to bind configuration sections to options classes.
 
 ## Options Pattern (IOptions<T>)
+
 The options pattern is used to bind configuration sections to strongly-typed classes. This is achieved by:
 1. Defining a POCO class for a configuration section.
 2. Registering it in the DI container with `services.Configure<T>(configuration.GetSection("SectionName"))`.

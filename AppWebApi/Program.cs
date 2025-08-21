@@ -1,4 +1,5 @@
 ﻿using Configuration.Options;
+using GoodFriends_lesson_branches.Configuration.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,11 @@ builder.Services.Configure<DbConnectionSetsOptions>(
 // adding verion info
 builder.Services.Configure<VersionOptions>(options =>VersionOptions.ReadFromAssembly(options));
 
+builder.Services.Configure<MyNewSecrets>(
+    options => builder.Configuration.GetSection(MyNewSecrets.Position).Bind(options));
+
+builder.Services.Configure<ClassOnMartinRequest>(
+    options => builder.Configuration.GetSection(ClassOnMartinRequest.Position).Bind(options));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen(c =>
