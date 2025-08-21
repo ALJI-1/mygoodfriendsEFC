@@ -37,6 +37,10 @@ builder.Services.Configure<AesEncryptionOptions>(
 builder.Services.Configure<JwtOptions>(
     options => builder.Configuration.GetSection(JwtOptions.Position).Bind(options));
 
+builder.Services.Configure<MySettingsOptions>(
+    options => builder.Configuration.GetSection(MySettingsOptions.Position).Bind(options));
+
+
 // adding options and service for multiple Database connections and their respective DbContexts
 builder.Services.Configure<DbConnectionSetsOptions>(
     options => builder.Configuration.GetSection(DbConnectionSetsOptions.Position).Bind(options));
