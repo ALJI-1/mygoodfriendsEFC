@@ -243,7 +243,9 @@ namespace AppWebApi.Controllers
             }
         }
 
-        public AdminController(Encryptions encryptions, DatabaseConnections dbConnections, ILogger<AdminController> logger,
+        public AdminController(Encryptions encryptions,
+                    DatabaseConnections dbConnections,
+                    ILogger<AdminController> logger,
                     IConfiguration configuration,
                     IOptions<DbConnectionSetsOptions> dbSetOptions,
                     IOptions<AesEncryptionOptions> aesOptions,
