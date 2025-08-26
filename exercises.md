@@ -6,7 +6,7 @@ These exercises will help you practice working with user secrets, configuration,
 
 - **Goal:** Create a custom user secret structure to store sensitive information (e.g., an API key or a secret message).
 - **Steps:**
-  1. Define a new class (e.g., `MySecrets`) with properties .
+  1. Define a new class in Optionsfolder (e.g., `MySecrets`) with properties .
   2. Add your secrets class structure in json format in the Configurations user secret file, secrets.json
 
 ## Exercise 2: Create an Endpoint Using IConfiguration
