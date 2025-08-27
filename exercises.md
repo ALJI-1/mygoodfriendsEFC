@@ -1,7 +1,7 @@
-# Exercises: Loosely Coupled Friend and CreditCard Models, Service, and Controller
+# Exercises: Loosely Coupled Customer and CreditCard Models, Service, and Controller
 
 ## Purpose
-These exercises will guide you through creating a loosely coupled model of a `Friend` containing `firstname`, `lastname`, and credit card info, with `CreditCard` as a separate model. You will also create a service to provide a list of friends with creditcard information and a controller (`FriendsController`) with two endpoints: one returning credit card info in clear text, and one with encrypted credit card info.
+These exercises will guide you through creating a loosely coupled model of a `Customer` containing `FirstName`, `LastName`, and credit card info, with `CreditCard` as a separate model. You will also create a service to provide a list of Customer with creditcard information and a controller (`CustomerController`) with two endpoints: one returning credit card info in clear text, and one with encrypted credit card info.
 
 ---
 
@@ -9,23 +9,23 @@ These exercises will guide you through creating a loosely coupled model of a `Fr
 
 1. **Create interfaces for loose coupling**
    - Create an `ICreditCard` interface with properties: `CardNumber`, `ExpiryMonth`, `ExpiryYear` (all as strings).
-   - Create an `IFriend` interface with properties: `FirstName`, `LastName` (strings), and a `CreditCard` property (of type `ICreditCard`).
+   - Create an `ICustomer` interface with properties: `FirstName`, `LastName` (strings), and a `CreditCard` property (of type `ICreditCard`).
 2. **Create a `CreditCard` model**
    - Properties: `CardNumber`, `ExpiryMonth`, `ExpiryYear` (all as strings).
    - Implement the `ICreditCard` interface.
-3. **Create a `Friend` model**
+3. **Create a `Customer` model**
    - Properties: `FirstName`, `LastName` (strings), and a `CreditCard` property (of type `ICreditCard`).
-   - Implement the `IFriend` interface.
+   - Implement the `ICustomer` interface.
    - Ensure the models are in the Models project.
 
 ---
 
 ## Exercise 2: Create a Service
 
-1. **Define an interface `IFriendService`**
-   - Method: `List<Friend> GetFriends(int nrItems)`
-2. **Implement the service as `FriendService`**
-   - Return a randomly seeded list of nrItems amount of friends, each with credit card info.
+1. **Define an interface `ICustomerService`**
+   - Method: `List<ICustomer> GetCustomers(int nrItems)`
+2. **Implement the service as `CustomerService`**
+   - Return a randomly seeded list of nrItems amount of Customer, each with credit card info.
    - Register the service for dependency injection.
 
    - hint: to generate CreditCard info
@@ -44,12 +44,12 @@ These exercises will guide you through creating a loosely coupled model of a `Fr
 
 ## Exercise 3: Create the Controller
 
-1. **Create a `FriendsController`**
-   - Inject `IFriendService` via constructor.
-2. **Add endpoint `/api/friends/clear`**
-   - Returns the list of friends with credit card info in clear text.
-3. **Add endpoint `/api/friends/encrypted`**
-   - Returns the list of friends, but with credit card info encrypted, use Encryptions AesEncryptToBase64 to encrypt the credit card class.
+1. **Create a `CustomerController`**
+   - Inject `ICustomerService` via constructor.
+2. **Add endpoint `/api/Customer/clear`**
+   - Returns the list of Customer with credit card info in clear text.
+3. **Add endpoint `/api/Customer/encrypted`**
+   - Returns the same list of Customer, but with credit card info encrypted, use Encryptions AesEncryptToBase64 to encrypt the credit card class.
 
 ---
 
