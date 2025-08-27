@@ -31,7 +31,7 @@ public class Encryptions
         {
             encryptedBytes = encryptor.TransformFinalBlock(dataset, 0, dataset.Length);
         }
-        
+        _logger.LogInformation("Datan krypterat");
         return Convert.ToBase64String(encryptedBytes);
     }
 
@@ -49,7 +49,7 @@ public class Encryptions
         string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedBytes);
         T decryptedObject = JsonConvert.DeserializeObject<T>(decryptedString);
 
-        
+         _logger.LogInformation("Datan avkrypterat");
         return decryptedObject;
     }
 

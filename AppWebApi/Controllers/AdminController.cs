@@ -197,7 +197,7 @@ namespace AppWebApi.Controllers
                     .Select(goodQuote => new Quote(goodQuote))
                     .Select(q => _encryptions.AesEncryptToBase64<Quote>(q)).ToList();
 
-                    _logger.LogInformation("Datan krypterat");
+                    
                 return Ok(quotes);
             }
             catch (Exception ex)
@@ -219,7 +219,7 @@ namespace AppWebApi.Controllers
                 _logger.LogInformation($"{nameof(DecryptedQuote)}");
                 var decrypted = _encryptions.AesDecryptFromBase64<Quote>(encryptedQuote);
                 
-                _logger.LogInformation("Datan avkrypterat");
+               
                 return Ok(decrypted);
             }
             catch (Exception ex)
