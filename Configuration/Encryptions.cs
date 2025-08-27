@@ -1,24 +1,27 @@
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Configuration;
 
-public class Encryptions 
+public class Encryptions
 {
     private readonly AesEncryptionOptions _aesOption;
-    
-    public Encryptions(IOptions<AesEncryptionOptions> aesOptions)
+    private readonly ILogger _logger;
+
+    public Encryptions(IOptions<AesEncryptionOptions> aesOptions, ILogger<Encryptions> logger)
     {
+        _logger = logger;
         _aesOption = aesOptions.Value;
         _aesOption.HashKeyIv(Pbkdf2HashToBytes);
     }
 
-    public string AesEncryptToBase64<T> (T sourceToEncrypt) 
+    public string AesEncryptToBase64<T>(T sourceToEncrypt)
     {
-        string stringToEncrypt = JsonConvert.SerializeObject(sourceToEncrypt);    
+        string stringToEncrypt = JsonConvert.SerializeObject(sourceToEncrypt);
         byte[] dataset = System.Text.Encoding.Unicode.GetBytes(stringToEncrypt);
 
         //Encrypt using AES
@@ -32,7 +35,7 @@ public class Encryptions
         return Convert.ToBase64String(encryptedBytes);
     }
 
-    public T AesDecryptFromBase64<T> (string encryptedBase64) 
+    public T AesDecryptFromBase64<T>(string encryptedBase64)
     {
         byte[] encryptedBytes = Convert.FromBase64String(encryptedBase64);
 
@@ -42,14 +45,15 @@ public class Encryptions
         {
             decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
         }
-        
+
         string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedBytes);
         T decryptedObject = JsonConvert.DeserializeObject<T>(decryptedString);
-                
+
+        
         return decryptedObject;
     }
 
-    public byte[] Pbkdf2HashToBytes (int nrBytes, string password)
+    public byte[] Pbkdf2HashToBytes(int nrBytes, string password)
     {
         byte[] registeredPasswordKeyDerivation = KeyDerivation.Pbkdf2(
             password: password,
@@ -61,10 +65,12 @@ public class Encryptions
         return registeredPasswordKeyDerivation;
     }
 
-    public string EncryptPasswordToBase64(string password)    
+    public string EncryptPasswordToBase64(string password)
     {
         //Hash a password using salt and streching
         byte[] encrypted = Pbkdf2HashToBytes(64, password);
         return Convert.ToBase64String(encrypted);
     }
+    
+
 }
