@@ -5,6 +5,7 @@ These exercises will help you practice configuring and testing logging in the Ap
 ---
 
 ## Exercise 1: Change Global Log Level
+- In AppWebApi AdminController throw an error in endpoint Environment so the catch clause is invoked and error is logged.
 - Edit `appsettings.json` to set `"Default": "Warning"` in the `Logging:LogLevel` section.
 - Run the application and verify that only warnings and errors are logged by all providers.
 
@@ -13,4 +14,3 @@ These exercises will help you practice configuring and testing logging in the Ap
 ## Exercise 2: Category-Based Filtering
 - In `appsettings.json`, set `"AppWebApi.Controllers": "None"` under the `Console` provider.
 - Trigger actions in a controller and confirm that no controller logs appear in the console, but do appear in the in-memory logger (if enabled).
-
