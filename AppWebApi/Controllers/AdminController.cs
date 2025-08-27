@@ -35,6 +35,8 @@ namespace AppWebApi.Controllers
             {
                 var info = _dbConnections.SetupInfo;
 
+                throw new Exception("Nu blev det fel i Enviroment");
+
                 _logger.LogInformation($"{nameof(Environment)}:\n{JsonConvert.SerializeObject(info)}");
                 return Ok(info);
             }
