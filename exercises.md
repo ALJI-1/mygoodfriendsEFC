@@ -10,9 +10,11 @@ These exercises will guide you through creating a loosely coupled model of a `Cu
 1. **Create interfaces for loose coupling**
    - Create an `ICreditCard` interface with properties: `CardNumber`, `ExpiryMonth`, `ExpiryYear` (all as strings).
    - Create an `ICustomer` interface with properties: `FirstName`, `LastName` (strings), and a `CreditCard` property (of type `ICreditCard`).
+   - 
 2. **Create a `CreditCard` model**
    - Properties: `CardNumber`, `ExpiryMonth`, `ExpiryYear` (all as strings).
    - Implement the `ICreditCard` interface.
+   - 
 3. **Create a `Customer` model**
    - Properties: `FirstName`, `LastName` (strings), and a `CreditCard` property (of type `ICreditCard`).
    - Implement the `ICustomer` interface.
@@ -24,6 +26,7 @@ These exercises will guide you through creating a loosely coupled model of a `Cu
 
 1. **Define an interface `ICustomerService`**
    - Method: `List<ICustomer> GetCustomers(int nrItems)`
+   - 
 2. **Implement the service as `CustomerService`**
    - Return a randomly seeded list of nrItems amount of Customer, each with credit card info.
    - Register the service for dependency injection.
@@ -46,8 +49,10 @@ These exercises will guide you through creating a loosely coupled model of a `Cu
 
 1. **Create a `CustomerController`**
    - Inject `ICustomerService` via constructor.
+   - 
 2. **Add endpoint `/api/Customer/clear`**
    - Returns the list of Customer with credit card info in clear text.
+   - 
 3. **Add endpoint `/api/Customer/encrypted`**
    - Returns the same list of Customer, but with credit card info encrypted, use Encryptions AesEncryptToBase64 to encrypt the credit card class.
 

@@ -51,6 +51,7 @@ builder.Services.AddSingleton<DatabaseConnections>();
 // adding encryption
 builder.Services.AddTransient<Encryptions>();
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen(c =>
 {
@@ -76,6 +77,9 @@ builder.Services.AddSingleton<ILoggerProvider, InMemoryLoggerProvider>();
 
 //Inject Services
 builder.Services.AddScoped<IAdminService, AdminServiceDb>();
+
+builder.Services.AddSingleton<ICustomerService, CustomerService>();
+
 
 var app = builder.Build();
 
