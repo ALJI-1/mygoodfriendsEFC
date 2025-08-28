@@ -51,28 +51,16 @@ builder.Services.AddSingleton<DatabaseConnections>();
 builder.Services.AddDbContext<MainDbContext>((serviceProvider, options) => 
 { 
     var configuration = serviceProvider.GetRequiredService<IConfiguration>(); 
-    var databaseConnections = serviceProvider.GetRequiredService<DatabaseConnections>(); 
-    
-    var userRole = configuration["DatabaseConnections:DefaultDataUser"];                      
-    var conn = databaseConnections.GetDataConnectionDetails(userRole);
-    if (databaseConnections.SetupInfo.DataConnectionServer == DatabaseServer.SQLServer)
-    {
-        options.UseSqlServer(conn.DbConnectionString, options => options.EnableRetryOnFailure());
-    }
-    else if (databaseConnections.SetupInfo.DataConnectionServer == DatabaseServer.MySql)
-    {
-        options.UseMySql(conn.DbConnectionString,ServerVersion.AutoDetect(conn.DbConnectionString),
-            b => b.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}"));
-    }
-    else if (databaseConnections.SetupInfo.DataConnectionServer == DatabaseServer.PostgreSql)
-    {
-        options.UseNpgsql(conn.DbConnectionString);
-    }
-    else
-    {
-        //unknown database type
-        throw new InvalidDataException($"DbContext for {databaseConnections.SetupInfo.DataConnectionServer} not existing");
-    }
+
+    // var connectionString = configuration.GetConnectionString("SqlServerDocker");
+    // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+
+    // var connectionString = configuration.GetConnectionString("MySqlDocker");
+    // options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+    //     b => b.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}"));
+
+    var connectionString = configuration.GetConnectionString("PostgreSqlDocker");
+    options.UseNpgsql(connectionString);
 });
 
 

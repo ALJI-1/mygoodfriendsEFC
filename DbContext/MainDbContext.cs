@@ -13,12 +13,6 @@ namespace DbContext;
 public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     IConfiguration _configuration;
-    DatabaseConnections _databaseConnections;
-
-    //used only for the easy demonstration purposes
-    //string _databaseHost = "192.168.68.53"; //used only for databases on remote docker
-    string _databaseHost = "localhost";
-
 
     #region C# model of database tables
     public DbSet<QuoteDbM> Quotes { get; set; }
@@ -26,9 +20,8 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     #region constructors
     public MainDbContext() { }
-    public MainDbContext(DbContextOptions options, IConfiguration configuration, DatabaseConnections databaseConnections) : base(options)
+    public MainDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
     { 
-        _databaseConnections = databaseConnections;
         _configuration = configuration;
     }
     #endregion
@@ -42,12 +35,39 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         base.OnModelCreating(modelBuilder);
     }
 
+    //used by the child DbContexts to retrieve the connection string
+    protected string GetConnectionString(string connectionStringName)
+    {
+        string connectionString = null;
+
+        // Check if configuration is available (runtime) or create one for design time
+        if (_configuration != null)
+        {
+            // Runtime: use configuration service
+            connectionString = _configuration.GetConnectionString(connectionStringName);
+            System.Console.WriteLine($"Runtime Connection String from config: {connectionString}");
+        }
+        else
+        {
+            // Design time: manually create configuration to read appsettings.json
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            var config = configBuilder.Build();
+            connectionString = config.GetConnectionString(connectionStringName);
+            System.Console.WriteLine($"Design time Connection String from appsettings.json: {connectionString}");
+        }
+
+        return connectionString;
+    }
+
     #region DbContext for some popular databases
     public class SqlServerDbContext : MainDbContext
     {
         public SqlServerDbContext() { }
-        public SqlServerDbContext(DbContextOptions options, IConfiguration configuration, DatabaseConnections databaseConnections) 
-            : base(options, configuration, databaseConnections) { }
+        public SqlServerDbContext(DbContextOptions options, IConfiguration configuration) 
+            : base(options, configuration) { }
 
 
         //Used only for CodeFirst Database Migration and database update commands
@@ -55,13 +75,9 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //services are not created by dependency injection when doing a dotnet ef code first migration.
-                //We will create them manually in next branch
-                //Therefore we used literal connect string in this example
-                var connectionString = $"Data Source={_databaseHost},14333;Initial Catalog=sql-friends;Persist Security Info=True;User ID=sa;Pwd=skYhgS@83#aQ;Encrypt=False;";
-                System.Console.WriteLine($"Connection String: {connectionString}");
-
-                optionsBuilder.UseSqlServer(connectionString,options => options.EnableRetryOnFailure());}
+                var connectionString = GetConnectionString("SqlServerDocker");
+                optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+            }
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -84,7 +100,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class MySqlDbContext : MainDbContext
     {
         public MySqlDbContext() { }
-        public MySqlDbContext(DbContextOptions options) : base(options, null, null) { }
+        public MySqlDbContext(DbContextOptions options) : base(options, null) { }
 
 
         //Used only for CodeFirst Database Migration
@@ -92,12 +108,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //services are not created by dependency injection when doing a dotnet ef code first migration.
-                //We will create them manually in next branch
-                //Therefore we used literal connect string in this example
-                var connectionString = $"server={_databaseHost},14333;uid=root;pwd=skYhgS@83#aQ;database=sql-friends;";
-                System.Console.WriteLine($"Connection String: {connectionString}");
-
+                var connectionString = GetConnectionString("MySqlDocker");
                 optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                     b => b.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}"));
             }
@@ -117,7 +128,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class PostgresDbContext : MainDbContext
     {
         public PostgresDbContext() { }
-        public PostgresDbContext(DbContextOptions options) : base(options, null, null){ }
+        public PostgresDbContext(DbContextOptions options) : base(options, null){ }
 
 
         //Used only for CodeFirst Database Migration
@@ -125,10 +136,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //services are not created by dependency injection when doing a dotnet ef code first migration.
-                //We will create them manually in next branch
-                //Therefore we used literal connect string in this example
-                var connectionString = $"Server={_databaseHost};Port=5432;Database=sql-friends;Username=postgres;Password=skYhgS@83#aQ;";
+                var connectionString = GetConnectionString("PostgresDocker");
                 System.Console.WriteLine($"Connection String: {connectionString}");
                 
                 optionsBuilder.UseNpgsql(connectionString);

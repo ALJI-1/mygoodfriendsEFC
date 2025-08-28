@@ -18,7 +18,7 @@ namespace AppWebApi.Controllers
     public class AdminController : Controller
     {
         readonly IAdminService _service;
-        readonly DatabaseConnections _dbConnections = null;
+        readonly IConfiguration _configuration;
         readonly ILogger<AdminController> _logger;
         readonly VersionOptions _versionOptions;
 
@@ -30,10 +30,10 @@ namespace AppWebApi.Controllers
         {
             try
             {
-                var info = _dbConnections.SetupInfo;
+                var connectionString = _configuration.GetConnectionString("SqlServerDocker");
 
-                _logger.LogInformation($"{nameof(Environment)}:\n{JsonConvert.SerializeObject(info)}");
-                return Ok(info);
+                _logger.LogInformation($"{nameof(Environment)}:\n{JsonConvert.SerializeObject(connectionString)}");
+                return Ok(connectionString);
             }
             catch (Exception ex)
             {
@@ -95,13 +95,12 @@ namespace AppWebApi.Controllers
             return Ok("No messages in log");
         }
 
-        public AdminController(IAdminService service, DatabaseConnections dbConnections, ILogger<AdminController> logger,
-        IOptions<VersionOptions> versionOptions)
+        public AdminController(IAdminService service, ILogger<AdminController> logger,
+        IOptions<VersionOptions> versionOptions, IConfiguration configuration)
         {
             _service = service;
-            _dbConnections = dbConnections;
             _logger = logger;
-            _dbConnections = dbConnections;
+            _configuration = configuration;
             _versionOptions = versionOptions.Value;
         }
     }
