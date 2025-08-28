@@ -52,15 +52,15 @@ builder.Services.AddDbContext<MainDbContext>((serviceProvider, options) =>
 { 
     var configuration = serviceProvider.GetRequiredService<IConfiguration>(); 
 
-    // var connectionString = configuration.GetConnectionString("SqlServerDocker");
-    // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+    var connectionString = configuration.GetConnectionString("SqlServerDocker");
+    options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
 
-    // var connectionString = configuration.GetConnectionString("MySqlDocker");
-    // options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-    //     b => b.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}"));
+    //var connectionString = configuration.GetConnectionString("MySqlDocker");
+    //options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+        //b => b.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}"));
 
-    var connectionString = configuration.GetConnectionString("PostgreSqlDocker");
-    options.UseNpgsql(connectionString);
+    //var connectionString = configuration.GetConnectionString("PostgreSqlDocker");
+    //options.UseNpgsql(connectionString);
 });
 
 
@@ -79,8 +79,6 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v2.0",
 #endif
         Description = "This is an API used in Seido's various software developer training courses."
-        + $"<br>DataSet: {builder.Configuration["DatabaseConnections:UseDataSetWithTag"]}"
-        + $"<br>DefaultDataUser: {builder.Configuration["DatabaseConnections:DefaultDataUser"]}"
     });
 });
 

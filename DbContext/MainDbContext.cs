@@ -12,7 +12,7 @@ namespace DbContext;
 //used for all Database connection as well as for EFC CodeFirst migration and database updates 
 public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    IConfiguration _configuration;
+    readonly IConfiguration _configuration;
 
     #region C# model of database tables
     public DbSet<QuoteDbM> Quotes { get; set; }
@@ -136,7 +136,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = GetConnectionString("PostgresDocker");
+                var connectionString = GetConnectionString("PostgreSqlDocker");
                 System.Console.WriteLine($"Connection String: {connectionString}");
                 
                 optionsBuilder.UseNpgsql(connectionString);
