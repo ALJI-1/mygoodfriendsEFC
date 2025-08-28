@@ -20,14 +20,6 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     string _databaseHost = "localhost";
 
 
-#if DEBUG
-    // remove password from connection string in debug mode
-    // this is useful for debugging and logging purposes, but should not be used in production code
-    public string dbConnection => System.Text.RegularExpressions.Regex.Replace(
-        this.Database.GetConnectionString() ?? "", @"(pwd|password)=[^;]*;?", "",
-        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-#endif
-
     #region C# model of database tables
     public DbSet<QuoteDbM> Quotes { get; set; }
     #endregion
