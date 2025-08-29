@@ -3,20 +3,20 @@ using System;
 using DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DbContext.Migrations.PostgresMigrations
+namespace DbContext.Migrations.mysqlMigrations
 {
-    [DbContext(typeof(MainDbContext.PostgresDbContext))]
-<<<<<<<< HEAD:DbContext/Migrations/PostgresMigrations/20250828125143_initial_migration.Designer.cs
-    [Migration("20250828125143_initial_migration")]
+    [DbContext(typeof(MainDbContext.MySqlDbContext))]
+<<<<<<<< HEAD:DbContext/Migrations/mysqlMigrations/20250828124841_initial_migration.Designer.cs
+    [Migration("20250828124841_initial_migration")]
 ========
-    [Migration("20250828130742_initial_migration")]
->>>>>>>> 7-dbcontext:DbContext/Migrations/PostgresMigrations/20250828130742_initial_migration.Designer.cs
+    [Migration("20250828130734_initial_migration")]
+>>>>>>>> 7-dbcontext:DbContext/Migrations/mysqlMigrations/20250828130734_initial_migration.Designer.cs
     partial class initial_migration
     {
         /// <inheritdoc />
@@ -25,15 +25,15 @@ namespace DbContext.Migrations.PostgresMigrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("DbModels.QuoteDbM", b =>
                 {
                     b.Property<Guid>("QuoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Author")
                         .HasColumnType("varchar(200)");

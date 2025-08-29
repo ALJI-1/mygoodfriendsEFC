@@ -3,30 +3,37 @@ using System;
 using DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DbContext.Migrations.MySqlMigrations
+namespace DbContext.Migrations.PostgresMigrations
 {
-    [DbContext(typeof(MainDbContext.MySqlDbContext))]
-    partial class MySqlDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MainDbContext.PostgresDbContext))]
+<<<<<<<< HEAD:DbContext/Migrations/PostgresMigrations/20250828125143_initial_migration.Designer.cs
+    [Migration("20250828125143_initial_migration")]
+========
+    [Migration("20250828130742_initial_migration")]
+>>>>>>>> 7-dbcontext:DbContext/Migrations/PostgresMigrations/20250828130742_initial_migration.Designer.cs
+    partial class initial_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("DbModels.QuoteDbM", b =>
                 {
                     b.Property<Guid>("QuoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Author")
                         .HasColumnType("varchar(200)");

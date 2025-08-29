@@ -4,19 +4,20 @@ using DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
+<<<<<<< HEAD:DbContext/Migrations/MySqlMigrations/MySqlDbContextModelSnapshot.cs
 namespace DbContext.Migrations.MySqlMigrations
+=======
+namespace DbContext.Migrations.mysqlMigrations
+>>>>>>> 7-dbcontext:DbContext/Migrations/mysqlMigrations/MySqlDbContextModelSnapshot.cs
 {
     [DbContext(typeof(MainDbContext.MySqlDbContext))]
-    [Migration("20250828124841_initial_migration")]
-    partial class initial_migration
+    partial class MySqlDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
