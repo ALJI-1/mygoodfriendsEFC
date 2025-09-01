@@ -13,8 +13,7 @@ namespace DbContext;
 //used for all Database connection as well as for EFC CodeFirst migration and database updates 
 public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    IConfiguration _configuration;
-    DatabaseConnections _databaseConnections;
+        DatabaseConnections _databaseConnections;
 
 #if DEBUG
     // remove password from connection string in debug mode
@@ -33,10 +32,9 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     #region constructors
     public MainDbContext() { }
-    public MainDbContext(DbContextOptions options, IConfiguration configuration, DatabaseConnections databaseConnections) : base(options)
+    public MainDbContext(DbContextOptions options, DatabaseConnections databaseConnections) : base(options)
     { 
         _databaseConnections = databaseConnections;
-        _configuration = configuration;
     }
     #endregion
 
@@ -53,8 +51,8 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class SqlServerDbContext : MainDbContext
     {
         public SqlServerDbContext() { }
-        public SqlServerDbContext(DbContextOptions options, IConfiguration configuration, DatabaseConnections databaseConnections) 
-            : base(options, configuration, databaseConnections) { }
+        public SqlServerDbContext(DbContextOptions options, DatabaseConnections databaseConnections) 
+            : base(options, databaseConnections) { }
 
 
         //Used only for CodeFirst Database Migration and database update commands
@@ -87,7 +85,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class MySqlDbContext : MainDbContext
     {
         public MySqlDbContext() { }
-        public MySqlDbContext(DbContextOptions options) : base(options, null, null) { }
+        public MySqlDbContext(DbContextOptions options) : base(options, null) { }
 
 
         //Used only for CodeFirst Database Migration
@@ -116,7 +114,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class PostgresDbContext : MainDbContext
     {
         public PostgresDbContext() { }
-        public PostgresDbContext(DbContextOptions options) : base(options, null, null){ }
+        public PostgresDbContext(DbContextOptions options) : base(options, null){ }
 
 
         //Used only for CodeFirst Database Migration
