@@ -1,6 +1,4 @@
 ﻿In Visual Studio Code  open a terminal in DbContext project.
-In Windows Visual Studio, open PMC and ensure that the Class Library project, DbContext, is the default project.
-
 
 Visual Studio Code Database migrations.
 --------------------------------
@@ -17,21 +15,6 @@ Postgres:
 dotnet ef migrations add initial_migration --context PostgresDbContext --output-dir Migrations/PostgresMigrations
 
 
-Windows Visual Studio Database migrations.
-----------------------------------
-In the PCM terminal, type below commands. After each migration you will get a success confirmation from EFC.
-Use command depending on your database.
-
-SQLServer:
-add-migration initial_migration -context SqlServerDbContext -outputdir Migrations/SqlServerMigrations
-
-MariaDb:
-add-migration initial_migration --context MySqlDbContext --outputdir Migrations/MySqlMigrations
-
-Postgres:
-add-migration initial_migration --context PostgresDbContext --outputdir Migrations/PostgresMigrations
-
-
 Visual Studio Code Commit the migrations to the Database (create or update the databases).
 ----------------------------------------------------------------------------
 In the terminal, type below commands. After each committment you will get a success confirmation
@@ -45,21 +28,17 @@ Postgres:
 dotnet ef database update --context PostgresDbContext
 
 
-Windows Visual Studio Commit the migrations to the Database (create or update the databases).
+Visual Studio Code to drop the Database.
 ----------------------------------------------------------------------------
-
-In the PCM terminal, type below commands. After each migration you will get a success confirmation
+In the terminal, type below commands. After each committment you will get a success confirmation
 SQLServer:
-update-database -context SqlServerDbContext
+dotnet ef database drop -f --context SqlServerDbContext
 
 MariaDb:
-update-database -context MySqlDbContext
+dotnet ef database drop -f --context MySqlDbContext
 
 Postgres:
-update-database -context PostgresDbContext
-
-SQLite:
-update-database -context SqliteDbContext
+dotnet ef database drop -f --context PostgresDbContext
 
 
 
