@@ -35,3 +35,7 @@ To create the AppWebApi
 
 5. Use endpoint Admin/Seed to fill the database Quote table with content.
    Check the content using Azure Data Studio
+
+6. In Program.cs, in builder.Services.AddDbContext<MainDbContext>(options => :
+   - comment out SQLSERVER  and set DbContext connection to MYSQL and run the App and Seed the database using endpoint Admin/Seed.
+   - comment out MYSQL  and set DbContext connection to POSTGRESQL and run the App and Seed the database using endpoint Admin/Seed.
