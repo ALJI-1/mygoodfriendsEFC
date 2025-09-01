@@ -58,8 +58,50 @@ This document explains the responsibilities and relationships of the `DbContext`
 
 ---
 
+
+---
+
+## MainDbContext and Its Child Classes
+
+### MainDbContext
+`MainDbContext` is the base Entity Framework Core context class for the application. It manages the database connection, entity sets (such as `Quotes`), and provides shared logic for all database operations. It exposes a method to retrieve connection strings from configuration.
+
+**Key responsibilities:**
+- Defines the main `DbSet` properties for entities (e.g., `Quotes`).
+- Provides constructors for dependency injection and direct instantiation.
+- Contains shared logic for model building and connection string retrieval.
+
+### Child DbContext Classes
+To support multiple database providers, `MainDbContext` is subclassed for each supported database:
+
+- **SqlServerDbContext**
+   - Inherits from `MainDbContext`.
+   - Configures the context to use SQL Server via `UseSqlServer`.
+   - Sets up conventions for decimal and string properties.
+   - Used for SQL Server-specific migrations and database updates.
+
+- **MySqlDbContext**
+   - Inherits from `MainDbContext`.
+   - Configures the context to use MySQL via `UseMySql`.
+   - Sets up conventions for string properties.
+   - Used for MySQL-specific migrations and database updates.
+
+- **PostgresDbContext**
+   - Inherits from `MainDbContext`.
+   - Configures the context to use PostgreSQL via `UseNpgsql`.
+   - Sets up conventions for string properties.
+   - Used for PostgreSQL-specific migrations and database updates.
+
+**Purpose of this structure:**
+- Allows the application to target different database engines with minimal code changes.
+- Each child context can override configuration and conventions as needed for its database provider.
+- Enables provider-specific migrations and connection handling.
+
+---
+
 ## Summary
 - `DbModels` defines the entity data structure.
 - `DbContext` manages the database connection and entity tracking.
 - `DbRepos` provides data access methods using `DbContext` and `DbModels`.
 - The connection string is read from configuration and injected into `DbContext` for database operations.
+- `MainDbContext` is the base context, with child classes for each supported database provider (SQL Server, MySQL, PostgreSQL).
