@@ -3,16 +3,16 @@ using System;
 using DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DbContext.Migrations.PostgresDbContext
+namespace DbContext.Migrations.SqlServerDbContext
 {
-    [DbContext(typeof(MainDbContext.PostgresDbContext))]
-    [Migration("20250901075749_miInitial")]
+    [DbContext(typeof(MainDbContext.SqlServerDbContext))]
+    [Migration("20250901143637_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -21,15 +21,15 @@ namespace DbContext.Migrations.PostgresDbContext
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("DbModels.QuoteDbM", b =>
                 {
                     b.Property<Guid>("QuoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Author")
                         .HasColumnType("varchar(200)");

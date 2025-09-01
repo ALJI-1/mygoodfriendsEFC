@@ -12,18 +12,14 @@ namespace DbContext;
 //used for all Database connection as well as for EFC CodeFirst migration and database updates 
 public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    readonly IConfiguration _configuration;
-
     #region C# model of database tables
     public DbSet<QuoteDbM> Quotes { get; set; }
     #endregion
 
     #region constructors
     public MainDbContext() { }
-    public MainDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
-    { 
-        _configuration = configuration;
-    }
+    public MainDbContext(DbContextOptions options) : base(options)
+    { }
     #endregion
 
     //Here we can modify the migration building
@@ -38,26 +34,14 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     //used by the child DbContexts to retrieve the connection string
     protected string GetConnectionString(string connectionStringName)
     {
-        string connectionString = null;
+        // Design time: manually create configuration to read appsettings.json
+        var configBuilder = new ConfigurationBuilder()
+            .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-        // Check if configuration is available (runtime) or create one for design time
-        if (_configuration != null)
-        {
-            // Runtime: use configuration service
-            connectionString = _configuration.GetConnectionString(connectionStringName);
-            System.Console.WriteLine($"Runtime Connection String from config: {connectionString}");
-        }
-        else
-        {
-            // Design time: manually create configuration to read appsettings.json
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            var config = configBuilder.Build();
-            connectionString = config.GetConnectionString(connectionStringName);
-            System.Console.WriteLine($"Design time Connection String from appsettings.json: {connectionString}");
-        }
+        var config = configBuilder.Build();
+        var connectionString = config.GetConnectionString(connectionStringName);
+        System.Console.WriteLine($"Design time Connection String from appsettings.json: {connectionString}");
 
         return connectionString;
     }
@@ -66,8 +50,8 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class SqlServerDbContext : MainDbContext
     {
         public SqlServerDbContext() { }
-        public SqlServerDbContext(DbContextOptions options, IConfiguration configuration) 
-            : base(options, configuration) { }
+        public SqlServerDbContext(DbContextOptions options) 
+            : base(options) { }
 
 
         //Used only for CodeFirst Database Migration and database update commands
@@ -100,7 +84,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class MySqlDbContext : MainDbContext
     {
         public MySqlDbContext() { }
-        public MySqlDbContext(DbContextOptions options) : base(options, null) { }
+        public MySqlDbContext(DbContextOptions options) : base(options) { }
 
 
         //Used only for CodeFirst Database Migration
@@ -128,7 +112,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public class PostgresDbContext : MainDbContext
     {
         public PostgresDbContext() { }
-        public PostgresDbContext(DbContextOptions options) : base(options, null){ }
+        public PostgresDbContext(DbContextOptions options) : base(options){ }
 
 
         //Used only for CodeFirst Database Migration
