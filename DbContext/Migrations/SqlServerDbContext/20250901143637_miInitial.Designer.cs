@@ -12,17 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-<<<<<<< HEAD:DbContext/Migrations/SqlServerDbContext/20250828130724_initial_migration.Designer.cs
-<<<<<<<< HEAD:DbContext/Migrations/SqlServerDbContext/20250828124104_initial_migration.Designer.cs
-    [Migration("20250828124104_initial_migration")]
-========
-    [Migration("20250828130724_initial_migration")]
->>>>>>>> 7-dbcontext:DbContext/Migrations/SqlServerDbContext/20250828130724_initial_migration.Designer.cs
-    partial class initial_migration
-=======
     [Migration("20250901143637_miInitial")]
     partial class miInitial
->>>>>>> 7-dbcontext:DbContext/Migrations/SqlServerDbContext/20250901143637_miInitial.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
