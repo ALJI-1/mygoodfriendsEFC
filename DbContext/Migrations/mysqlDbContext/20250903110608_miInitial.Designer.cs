@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.mysqlDbContext
 {
     [DbContext(typeof(MainDbContext.MySqlDbContext))]
-    [Migration("20250816150201_miInitial")]
+    [Migration("20250903110608_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace DbContext.Migrations.mysqlDbContext
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
