@@ -17,26 +17,41 @@ namespace DbContext.Migrations.mysqlDbContext
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("DbModels.QuoteDbM", b =>
+            modelBuilder.Entity("DbModels.CreditCardDbM", b =>
                 {
-                    b.Property<Guid>("QuoteId")
+                    b.Property<Guid>("CreditCardId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Author")
+                    b.Property<string>("CardHolderName")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<string>("QuoteText")
+                    b.Property<string>("EncryptedToken")
                         .HasColumnType("varchar(200)");
 
-                    b.HasKey("QuoteId");
+                    b.Property<string>("ExpirationMonth")
+                        .HasColumnType("varchar(200)");
 
-                    b.ToTable("Quotes");
+                    b.Property<string>("ExpirationYear")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("Issuer")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("CreditCardId");
+
+                    b.ToTable("CreditCards");
                 });
 #pragma warning restore 612, 618
         }

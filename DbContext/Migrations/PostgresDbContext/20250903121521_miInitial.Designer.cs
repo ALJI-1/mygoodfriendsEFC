@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DbContext.Migrations.PostgresDbContext
 {
     [DbContext(typeof(MainDbContext.PostgresDbContext))]
-    [Migration("20250808121946_miInitial")]
+    [Migration("20250903121521_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -20,26 +20,41 @@ namespace DbContext.Migrations.PostgresDbContext
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DbModels.QuoteDbM", b =>
+            modelBuilder.Entity("DbModels.CreditCardDbM", b =>
                 {
-                    b.Property<Guid>("QuoteId")
+                    b.Property<Guid>("CreditCardId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Author")
+                    b.Property<string>("CardHolderName")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<string>("QuoteText")
+                    b.Property<string>("EncryptedToken")
                         .HasColumnType("varchar(200)");
 
-                    b.HasKey("QuoteId");
+                    b.Property<string>("ExpirationMonth")
+                        .HasColumnType("varchar(200)");
 
-                    b.ToTable("Quotes");
+                    b.Property<string>("ExpirationYear")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("Issuer")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("CreditCardId");
+
+                    b.ToTable("CreditCards");
                 });
 #pragma warning restore 612, 618
         }
