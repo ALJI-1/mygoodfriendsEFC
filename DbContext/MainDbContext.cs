@@ -38,7 +38,6 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     //Here we can modify the migration building
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        #region override modelbuilder
         // This is where we can modify the model builder to add custom configurations
         modelBuilder.Entity("DbModels.PetDbM", b =>
         {
@@ -65,7 +64,6 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 
             b.Navigation("AddressDbM");
         });
-        #endregion
         
         base.OnModelCreating(modelBuilder);
     }
@@ -100,7 +98,10 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Add your own modelling based on done migrations
+            //Encryption Tokens can be very long
+            modelBuilder.Entity<CreditCardDbM>()
+                .Property(a => a.EncryptedToken).HasColumnType("nvarchar(max)");
+
             base.OnModelCreating(modelBuilder);
         }
     }
@@ -132,6 +133,15 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
             base.ConfigureConventions(configurationBuilder);
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Set EnryptedToken to longtext for MySQL
+            modelBuilder.Entity<CreditCardDbM>()
+                .Property(a => a.EncryptedToken).HasColumnType("longtext");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
     public class PostgresDbContext : MainDbContext
@@ -156,6 +166,15 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
         {
             configurationBuilder.Properties<string>().HaveColumnType("varchar(200)");
             base.ConfigureConventions(configurationBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Set EnryptedToken to text for PostgreSQL
+            modelBuilder.Entity<CreditCardDbM>()
+                .Property(a => a.EncryptedToken).HasColumnType("text");
+
+            base.OnModelCreating(modelBuilder);
         }
     }
     #endregion

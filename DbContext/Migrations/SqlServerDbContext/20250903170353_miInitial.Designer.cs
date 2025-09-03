@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20250816160133_miInitial")]
+    [Migration("20250903170353_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace DbContext.Migrations.SqlServerDbContext
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,6 +55,40 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .IsUnique();
 
                     b.ToTable("Addresses", "supusr");
+                });
+
+            modelBuilder.Entity("DbModels.CreditCardDbM", b =>
+                {
+                    b.Property<Guid>("CreditCardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CardHolderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpirationMonth")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("ExpirationYear")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("Issuer")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("CreditCardId");
+
+                    b.HasIndex("CardHolderId");
+
+                    b.ToTable("CreditCardDbM");
                 });
 
             modelBuilder.Entity("DbModels.FriendDbM", b =>
@@ -157,6 +191,17 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.ToTable("FriendDbMQuoteDbM", "supusr");
                 });
 
+            modelBuilder.Entity("DbModels.CreditCardDbM", b =>
+                {
+                    b.HasOne("DbModels.FriendDbM", "CardHolderDbM")
+                        .WithMany("CreditCardsDbM")
+                        .HasForeignKey("CardHolderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardHolderDbM");
+                });
+
             modelBuilder.Entity("DbModels.FriendDbM", b =>
                 {
                     b.HasOne("DbModels.AddressDbM", "AddressDbM")
@@ -200,6 +245,8 @@ namespace DbContext.Migrations.SqlServerDbContext
 
             modelBuilder.Entity("DbModels.FriendDbM", b =>
                 {
+                    b.Navigation("CreditCardsDbM");
+
                     b.Navigation("PetsDbM");
                 });
 #pragma warning restore 612, 618

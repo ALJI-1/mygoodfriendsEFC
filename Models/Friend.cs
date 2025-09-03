@@ -12,15 +12,17 @@ public class csFriend : IFriend, ISeed<csFriend>
     public virtual string Email { get; set; }
     public DateTime? Birthday { get; set; } = null;
 
-    //One Friends can only have one address
+    //One Friend can only have one address
     public virtual IAddress Address { get; set; } = null;
 
-    //One Friends can have many favorite pets
+    //One Friend can have many favorite pets
     public virtual List<IPet> Pets { get; set; } = null;
 
-    //One Friends can have many favorite quotes
+    //One Friend can have many favorite quotes
     public virtual List<IQuote> Quotes { get; set; } = null;
 
+    //One Friend can have many Credit Cards
+    public virtual List<ICreditCard> CreditCards { get; set; } = null;
 
     public string FullName => $"{FirstName} {LastName}";
 

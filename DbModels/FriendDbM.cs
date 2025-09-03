@@ -42,6 +42,13 @@ sealed public class FriendDbM : csFriend, ISeed<FriendDbM>
 
     [JsonIgnore]
     public List<QuoteDbM> QuotesDbM { get; set; } = null;
+
+    [NotMapped] 
+    public override List<ICreditCard> CreditCards { get => CreditCardsDbM?.ToList<ICreditCard>(); set => new NotImplementedException(); }
+
+    [JsonIgnore]
+    public List<CreditCardDbM> CreditCardsDbM { get; set; } = null;
+
     #endregion
 
     #region randomly seed this instance

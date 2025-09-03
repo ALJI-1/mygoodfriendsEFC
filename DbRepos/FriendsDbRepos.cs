@@ -33,7 +33,8 @@ public class FriendsDbRepos
             query = _dbContext.Friends.AsNoTracking()
                 .Include(i => i.AddressDbM)
                 .Include(i => i.PetsDbM)
-                .Include(i => i.QuotesDbM);
+                .Include(i => i.QuotesDbM)
+                .Include(i => i.CreditCardsDbM);
         }
 
         var ret = new ResponsePageDto<IFriend>()
