@@ -6,7 +6,7 @@ using Seido.Utilities.SeedGenerator;
 using Models;
 
 namespace DbModels;
-[Table("Pets", Schema = "supusr")]
+
 sealed public class PetDbM : Pet
 {
     [Key]    
