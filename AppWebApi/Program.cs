@@ -47,13 +47,20 @@ builder.Services.Configure<VersionOptions>(options =>VersionOptions.ReadFromAsse
 // Registering database connections service
 builder.Services.AddSingleton<DatabaseConnections>();
 
+var active = builder.Configuration["ActiveDbConnection"] ?? "SqlServerDocker";
+builder.Configuration.GetConnectionString(active);
+
+
 // adding DbContexts
 builder.Services.AddDbContext<MainDbContext>(options =>
 {
+
+    
+
     // SQLSERVER
     //var connectionString = builder.Configuration["ConnectionStrings:SqlServerDocker"];  //alternative to below
-    var connectionString = builder.Configuration.GetConnectionString("SqlServerDocker");
-    options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+    // var connectionString = builder.Configuration.GetConnectionString("SqlServerDocker");
+    // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
     // SQLSERVER END
 
     // MYSQL
@@ -73,17 +80,20 @@ builder.Services.AddDbContext<MainDbContext>(options =>
 builder.Services.AddTransient<Encryptions>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add ActiveDbConnection info to Swagger description
+var swaggerDescription = $"This is an API used in Seido's various software developer training courses.\nActiveDbConnection: {active}";
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
     {
-        Title = "Seido Friends API",
+    Title = "Seido Friends API",
 #if DEBUG
-        Version = "v2.0 DEBUG",
+    Version = "v2.0 DEBUG",
 #else
-        Version = "v2.0",
+    Version = "v2.0",
 #endif
-        Description = "This is an API used in Seido's various software developer training courses."
+    Description = swaggerDescription
     });
 });
 
