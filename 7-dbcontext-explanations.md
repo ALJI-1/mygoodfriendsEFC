@@ -99,6 +99,37 @@ To support multiple database providers, `MainDbContext` is subclassed for each s
 
 ---
 
+## Explanation: Purpose and Usage of OnConfiguring, ConfigureConventions, and OnModelCreating in EF Core
+
+### OnConfiguring
+- **Purpose:** Sets up the database provider, connection string, and other context options.
+- **Usage:** Override this method in your DbContext to configure how EF Core connects to the database. It is called every time a new context instance is created, unless options are already configured externally (e.g., via dependency injection).
+- **When Used:** Both at design time (e.g., migrations) and runtime (when your app runs).
+
+### ConfigureConventions
+- **Purpose:** Defines global conventions for model building, such as default column types or property behaviors.
+- **Usage:** Override this method to set up conventions that apply to all entities and properties in your model. This helps reduce repetitive configuration.
+- **When Used:** During model creation, before OnModelCreating, at both design time and runtime.
+
+### OnModelCreating
+- **Purpose:** Customizes the model by configuring entity mappings, relationships, constraints, and more using the Fluent API.
+- **Usage:** Override this method to fine-tune how your classes map to database tables, set up relationships, add constraints (like check constraints), and configure indexes.
+- **When Used:** During model creation, at both design time (for migrations) and runtime (when the context is used).
+
+---
+
+**Summary Table**
+
+| Method              | Main Purpose                        | When Called                |
+|---------------------|-------------------------------------|----------------------------|
+| OnConfiguring       | Set up context/database connection  | Design time & runtime      |
+| ConfigureConventions| Set global model conventions        | Design time & runtime      |
+| OnModelCreating     | Customize model (tables, relations) | Design time & runtime      |
+
+These methods are essential for controlling how EF Core builds and configures your database model, both when running your application and when using EF Core tools (like migrations).
+
+---
+
 ## Summary
 - `DbModels` defines the entity data structure.
 - `DbContext` manages the database connection and entity tracking.
