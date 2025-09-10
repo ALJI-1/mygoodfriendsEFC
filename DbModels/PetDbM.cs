@@ -15,7 +15,7 @@ sealed public class PetDbM : Pet, ISeed<PetDbM>
 
     [JsonIgnore]
     public Guid FriendId { get; set; }  //Enforces Cascade Delete
-    //public Guid? FriendId { get; set; }  //Enforces Cascade SetNull
+    //public Guid? FriendId { get; set; }  //Enforces Cascade NoAction
 
     [Required]
     public override string Name { get; set; }
