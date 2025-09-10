@@ -57,7 +57,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
             
             // Check constraint to enforce Name must be either 'Max' or 'Charlie'
             // Using quoted column name for PostgreSQL case-sensitivity
-            b.ToTable(t => t.HasCheckConstraint("CK_PetDbM_Name", "\"Name\" IN ('Max', 'Charlie')"));
+            //b.ToTable(t => t.HasCheckConstraint("CK_PetDbM_Name", "\"Name\" IN ('Max', 'Charlie')"));
         });
         
         modelBuilder.Entity("DbModels.FriendDbM", b =>
