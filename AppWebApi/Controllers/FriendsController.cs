@@ -59,10 +59,32 @@ namespace AppWebApi.Controllers
 
                 _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
 
-                //var item = await _service.ReadFriendAsync(idArg, flatArg);
-                //if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
+                var item = await _service.ReadFriendAsync(idArg, flatArg);
+                if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
 
-                return Ok();
+                return Ok(item);
+                //return Ok(item);         
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(ReadItem)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> DeleteItem(string id = null, string flat = "false")
+        {
+            try
+            {
+                var idArg = Guid.Parse(id);
+                bool flatArg = bool.Parse(flat);
+
+                _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
+
+                var item = await _service.DeleteFriendAsync(idArg, flatArg);
+                if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
+
+                return Ok(item);
                 //return Ok(item);         
             }
             catch (Exception ex)

@@ -20,6 +20,10 @@ public class FriendsServiceDb : IFriendsService
         _logger = logger;
     }
 
+    public Task<IFriend> ReadFriendAsync(Guid id, bool flat) => _repo.ReadFriendAsync(id, flat);
+    public Task<IFriend> DeleteFriendAsync(Guid id, bool flat) => _repo.DeleteFriendAsync(id, flat);
+    
+
     //Simple 1:1 calls in this case, but as Services expands, this will no longer need to be the case
     public Task<ResponsePageDto<IFriend>> ReadFriendsAsync(bool seeded, bool flat, string filter, int pageNumber, int pageSize) => _repo.ReadFriendsAsync(seeded, flat, filter, pageNumber, pageSize);
 }

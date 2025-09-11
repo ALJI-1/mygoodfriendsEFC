@@ -9,7 +9,7 @@ The `ReadItem` endpoint is currently stubbed out in the FriendsController but la
 ## Current State
 - ✅ Controller endpoint signature exists but is commented out
 - ❌ Service interface method missing
-- ❌ Service implementation missing  
+- ❌ Service implementation missing
 - ❌ Repository method missing
 
 ## Requirements
