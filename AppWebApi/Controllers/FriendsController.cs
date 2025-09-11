@@ -79,7 +79,7 @@ namespace AppWebApi.Controllers
                 var idArg = Guid.Parse(id);
                 bool flatArg = bool.Parse(flat);
 
-                _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
+                _logger.LogInformation($"{nameof(DeleteItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
 
                 var item = await _service.DeleteFriendAsync(idArg, flatArg);
                 if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
@@ -89,7 +89,7 @@ namespace AppWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(ReadItem)}: {ex.Message}");
+                _logger.LogError($"{nameof(DeleteItem)}: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
