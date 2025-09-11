@@ -44,6 +44,33 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //GET: api/friends/readitem
+        [HttpGet()]
+        [ActionName("ReadItem")]
+        [ProducesResponseType(200, Type = typeof(IFriend))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        public async Task<IActionResult> ReadItem(string id = null, string flat = "false")
+        {
+            try
+            {
+                var idArg = Guid.Parse(id);
+                bool flatArg = bool.Parse(flat);
+
+                _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
+
+                //var item = await _service.ReadFriendAsync(idArg, flatArg);
+                //if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
+
+                return Ok();
+                //return Ok(item);         
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(ReadItem)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
         public FriendsController(IFriendsService service, ILogger<FriendsController> logger)
         {
             _service = service;
