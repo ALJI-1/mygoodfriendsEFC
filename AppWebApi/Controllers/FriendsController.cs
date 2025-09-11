@@ -72,6 +72,13 @@ namespace AppWebApi.Controllers
             }
         }
 
+
+         //GET: api/friends/readitem
+        [HttpGet()]
+        [ActionName("Deletetem")]
+        [ProducesResponseType(200, Type = typeof(IFriend))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
         public async Task<IActionResult> DeleteItem(string id = null, string flat = "false")
         {
             try
@@ -82,7 +89,7 @@ namespace AppWebApi.Controllers
                 _logger.LogInformation($"{nameof(DeleteItem)}: {nameof(idArg)}: {idArg}, {nameof(flatArg)}: {flatArg}");
 
                 var item = await _service.DeleteFriendAsync(idArg, flatArg);
-                if (item == null) throw new ArgumentException ($"Item with id {id} does not exist");
+                if (item == null) throw new ArgumentException($"Item with id {id} does not exist");
 
                 return Ok(item);
                 //return Ok(item);         

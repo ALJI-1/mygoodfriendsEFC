@@ -25,11 +25,11 @@ public class FriendsDbRepos
         
         if (flat)
         {
-            query = _dbContext.Friends;
+            query = _dbContext.Friends.AsNoTracking();
         }
         else
         {
-            query = _dbContext.Friends
+            query = _dbContext.Friends.AsNoTracking()
                 .Include(i => i.AddressDbM)
                 .Include(i => i.PetsDbM)
                 .Include(i => i.QuotesDbM)
@@ -42,7 +42,7 @@ public class FriendsDbRepos
         if (friend != null)
         {
             _dbContext.Friends.Remove(friend);
-            //await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
         
         return friend;
